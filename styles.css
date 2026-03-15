@@ -1,0 +1,216 @@
+/* ==========================================================================
+   CONFIGURAÇÕES GERAIS E VARIÁVEIS
+   ========================================================================== */
+:root {
+    --primary-color: #ff0033;
+    --primary-glow: #ff3366;
+    --bg-dark: #000000;
+    --text-main: #cccccc;
+    --text-dim: #aaaaaa;
+    --border-color: #333333;
+    --font-cyber: 'Monospace', 'Courier New', Courier, monospace;
+}
+
+body {
+    margin: 0;
+    background: var(--bg-dark);
+    color: var(--text-main);
+    font-family: var(--font-cyber);
+    overflow-x: hidden;
+}
+
+/* ==========================================================================
+   EFEITOS DE AMBIENTE (PARTICLES & SCANLINES)
+   ========================================================================== */
+#tsparticles {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.scanlines {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.03),
+        rgba(255, 255, 255, 0.03) 1px,
+        transparent 1px,
+        transparent 3px
+    );
+}
+
+.ruido-estatico {
+    /* Caso queira adicionar um efeito de ruído depois */
+    position: fixed;
+    inset: 0;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   NAVEGAÇÃO (TOP NAV)
+   ========================================================================== */
+.top-nav {
+    display: flex;
+    flex-direction: column; /* Empilha a logo e os links */
+    align-items: center;    /* Centraliza os dois horizontalmente */
+    justify-content: center;
+    padding: 30px 0;        /* Espaço interno para não encostar no topo */
+    width: 100%;
+    gap: 5px;              /* Espaço entre a logo e os links */
+}
+
+.nav-links {
+    display: flex;
+    gap: 10px;              /* Espaço entre [ O JOGO ] e [ AS CRÔNICAS ] */
+}
+
+.logo {
+    font-size: 28px;        /* Aumentei um pouco para dar destaque */
+    margin-bottom: 5px;     /* Reforço de espaço caso o gap não baste */
+    border-bottom: 1px solid rgba(255, 0, 51, 0.3);
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.nav-links a {
+    color: var(--text-main);
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 14px;
+    transition: 0.3s;
+}
+
+.nav-links a.active, .nav-links a:hover {
+    color: var(--primary-color);
+    text-shadow: 0 0 5px var(--primary-color);
+}
+
+/* ==========================================================================
+   SEÇÃO HERO
+   ========================================================================== */
+.hero-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 20px;
+}
+
+.titulo-gigante {
+    font-size: clamp(40px, 8vw, 72px); /* Responsivo */
+    letter-spacing: 6px;
+    margin: 0;
+}
+
+.subtitulo {
+    font-size: 18px;
+    margin: 20px 0;
+    color: var(--text-dim);
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   COMPONENTES (BOTÕES E TEXTOS)
+   ========================================================================== */
+.cta-button {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 16px 40px;
+    border: 2px solid var(--primary-color);
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.cta-button:hover {
+    background: var(--primary-color);
+    box-shadow: 
+        0 0 15px var(--primary-color),
+        0 0 40px var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.shimmer-text {
+    background: linear-gradient(90deg, #444, var(--primary-color), #444);
+    background-size: 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+    to { background-position: 200%; }
+}
+
+/* ==========================================================================
+   GALERIA E CONTEÚDO
+   ========================================================================== */
+.screenshots {
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.grid-shots {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1200px;
+    margin-inline: auto;
+}
+
+.grid-shots img {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--border-color);
+    filter: grayscale(30%);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.grid-shots img:hover {
+    transform: scale(1.05);
+    filter: grayscale(0%);
+    border-color: var(--primary-color);
+    box-shadow: 0 0 20px rgba(255, 0, 51, 0.4);
+}
+
+.gameplay-section {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+.video-container {
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    position: relative;
+}
+
+.video-container iframe {
+    max-width: 100%;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
