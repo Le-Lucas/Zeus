@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Zeus | TCG Cyberpunk</title>
+
+    <link rel="stylesheet" href="styles.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+</head>
+
+<body>
+    <div id="tsparticles"></div>
+    <div class="ruido-estatico"></div>
+
+    <nav class="top-nav">
+        <div class="logo shimmer-text">Universo Zeus</div>
+        <div class="nav-links">
+            <a href="https://le-lucas.github.io/Projeto_Zeus_TCG" class="shimmer-text">[ O JOGO ]</a>
+            <a href="https://le-lucas.github.io/Projeto_Zeus" class="shimmer-text">[ AS CRÔNICAS ]</a>
+        </div>
+    </nav>
+
+    <header class="hero-section">
+        <div class="scanlines"></div>
+        <div class="hero-content">
+            <h1 class="shimmer-text titulo-gigante">PROJETO ZEUS</h1>
+            <p class="subtitulo">
+                O TCG Cyberpunk de Combate Tático.<br>
+                Sem downloads. Jogue direto no navegador.
+            </p>
+            <a href="https://le-lucas.github.io/Projeto_Zeus_TCG" class="cta-button">
+                <span class="btn-text">[ ENTRAR NO COMBATE ]</span>
+            </a>
+        </div>
+    </header>
+
+    <section class="screenshots">
+        <h2 class="shimmer-text">IMAGENS DO JOGO</h2>
+        <div class="grid-shots">
+            <img src="https://i.postimg.cc/TPKxBGNg/Screenshot-20260313-153416.png" alt="Screenshot 1">
+            <img src="https://i.postimg.cc/kg19jDsR/Screenshot-20260313-153343.png" alt="Screenshot 2">
+            <img src="https://i.postimg.cc/VkG175gr/Screenshot-20260313-153329.png" alt="Screenshot 3">
+            <img src="https://i.postimg.cc/RZs9PqdW/Screenshot-20260313-153249.png" alt="Screenshot 4">
+        </div>
+    </section>
+
+   <section class="gameplay-section">
+    <h2 class="shimmer-text">COMBATE EM TEMPO REAL</h2>
+    <div class="video-container">
+        <iframe 
+            width="800" 
+            height="450" 
+            src="https://files.catbox.moe/lw0p9l.mp4?autoplay=1&loop=1&muted=1&controls=0" 
+            frameborder="0" 
+            allow="autoplay; encrypted-media" 
+            allowfullscreen>
+        </iframe>
+    </div>
+<script>
+      // Tenta forçar a limpeza de contextos perdidos antes de iniciar o novo
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (gl) {
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+    }
+    let particlesInstance;
+
+    // Inicialização oficial
+    tsParticles.load("tsparticles", {
+        fpsLimit: 60,
+        particles: {
+            number: { value: 100 },
+            color: {value: ["#ff0033", "#ff3366", "#ff6600", "#00ffff", "#00e5ff"] },
+            move: {
+                enable: true,
+                speed: 1.5,
+                direction: "none",
+                outModes: { default: "out" }
+            },
+            size: { value: { min: 1, max: 3 } },
+            opacity: { value: 0.7 }
+        }
+    }).then(container => {
+        particlesInstance = container;
+    });
+
+    const btn = document.querySelector(".cta-button");
+
+    btn.addEventListener("click", (e) => {
+        const targetUrl = btn.href;
+
+        // Se a instância existe, fazemos a explosão da forma correta
+        if (particlesInstance) {
+            e.preventDefault();
+
+            // 1. Usamos o "emitter" nativo para criar novas partículas no local do clique
+            particlesInstance.particles.push(50, {
+                x: e.clientX,
+                y: e.clientY
+            });
+
+            // 2. Para mover as existentes sem dar erro de 'forEach',
+            // usamos o método de query da própria biblioteca
+            const allParticles = particlesInstance.particles.domArray; 
+            // Se o domArray falhar, tentamos o array comum com um fallback vazio
+            const items = allParticles || particlesInstance.particles.array || [];
+
+            items.forEach(p => {
+                const angle = Math.random() * Math.PI * 2;
+                const force = 15;
+                p.velocity.x = Math.cos(angle) * force;
+                p.velocity.y = Math.sin(angle) * force;
+            });
+
+            // Redireciona após o efeito
+            setTimeout(() => {
+                window.location.href = targetUrl;
+            }, 700);
+        }
+    });
+
+    // Magnetismo corrigido para evitar o mesmo erro
+    btn.addEventListener("mouseenter", () => {
+        if (!particlesInstance) return;
+        
+        const rect = btn.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        const items = particlesInstance.particles.domArray || particlesInstance.particles.array || [];
+
+        items.forEach(p => {
+            p.velocity.x += (centerX - p.position.x) * 0.02;
+            p.velocity.y += (centerY - p.position.y) * 0.02;
+        });
+    });
+</script>
+</body>
+</html>
